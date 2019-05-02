@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.info.back.dao.IPerformanceCountRecordDao">
+    <resultMap id="BaseResultMap" type="com.info.back.vo.PerformanceCountRecord">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+        <result column="group_level" property="groupLevel" jdbcType="VARCHAR"/>
+        <result column="tel" property="tel" jdbcType="VARCHAR"/>
+        <result column="sys_order" property="sysOrder" jdbcType="INTEGER"/>
+        <result column="hand_order" property="handOrder" jdbcType="INTEGER"/>
+        <result column="out_order" property="outOrder" jdbcType="INTEGER"/>
+        <result column="return_principal" property="returnPrincipal" jdbcType="INTEGER"/>
+        <result column="renewal_count" property="renewalCount" jdbcType="INTEGER"/>
+        <result column="fee" property="fee" jdbcType="INTEGER"/>
+        <result column="count_date" property="countDate" jdbcType="DATE"/>
+        <result column="total_into_order" property="totalIntoOrder" jdbcType="INTEGER"/>
+        <result column="total_out_order" property="totalOutOrder" jdbcType="INTEGER"/>
+        <result column="suc_rate" property="sucRate" jdbcType="DOUBLE"/>
+        <result column="create_date" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="update_date" property="updateDate" jdbcType="TIMESTAMP"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+    id, user_name, group_level, tel, sys_order, hand_order, out_order, return_principal, renewal_count,
+    fee, count_date, total_into_order, total_out_order, suc_rate, create_date, update_date
+  </sql>
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        from performance_count_record
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from performance_count_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+    <insert id="insert" parameterType="com.info.back.vo.PerformanceCountRecord">
+    insert into performance_count_record (id, user_name, group_level,
+    tel, sys_order, hand_order, out_order,
+    return_principal, renewal_count, fee,
+    count_date, total_into_order, total_out_order,
+    suc_rate, create_date, update_date
+    )
+    values (#{id,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{groupLevel,jdbcType=VARCHAR},
+    #{tel,jdbcType=VARCHAR}, #{sysOrder,jdbcType=INTEGER}, #{handOrder,jdbcType=INTEGER}, #{outOrder,jdbcType=INTEGER},
+    #{returnPrincipal,jdbcType=INTEGER}, #{renewalCount,jdbcType=INTEGER}, #{fee,jdbcType=INTEGER},
+    #{countDate,jdbcType=DATE}, #{totalIntoOrder,jdbcType=INTEGER}, #{totalOutOrder,jdbcType=INTEGER},
+    #{sucRate,jdbcType=DOUBLE}, #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}
+    )
+  </insert>
+    <insert id="insertSelective" parameterType="com.info.back.vo.PerformanceCountRecord">
+        insert into performance_count_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userName != null">
+                user_name,
+            </if>
+            <if test="groupLevel != null">
+                group_level,
+            </if>
+            <if test="tel != null">
+                tel,
+            </if>
+            <if test="sysOrder != null">
+                sys_order,
+            </if>
+            <if test="handOrder != null">
+                hand_order,
+            </if>
+            <if test="outOrder != null">
+                out_order,
+            </if>
+            <if test="returnPrincipal != null">
+                return_principal,
+            </if>
+            <if test="renewalCount != null">
+                renewal_count,
+            </if>
+            <if test="fee != null">
+                fee,
+            </if>
+            <if test="countDate != null">
+                count_date,
+            </if>
+            <if test="totalIntoOrder != null">
+                total_into_order,
+            </if>
+            <if test="totalOutOrder != null">
+                total_out_order,
+            </if>
+            <if test="sucRate != null">
+                suc_rate,
+            </if>
+            <if test="createDate != null">
+                create_date,
+            </if>
+            <if test="updateDate != null">
+                update_date,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="userName != null">
+                #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupLevel != null">
+                #{groupLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null">
+                #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="sysOrder != null">
+                #{sysOrder,jdbcType=INTEGER},
+            </if>
+            <if test="handOrder != null">
+                #{handOrder,jdbcType=INTEGER},
+            </if>
+            <if test="outOrder != null">
+                #{outOrder,jdbcType=INTEGER},
+            </if>
+            <if test="returnPrincipal != null">
+                #{returnPrincipal,jdbcType=INTEGER},
+            </if>
+            <if test="renewalCount != null">
+                #{renewalCount,jdbcType=INTEGER},
+            </if>
+            <if test="fee != null">
+                #{fee,jdbcType=INTEGER},
+            </if>
+            <if test="countDate != null">
+                #{countDate,jdbcType=DATE},
+            </if>
+            <if test="totalIntoOrder != null">
+                #{totalIntoOrder,jdbcType=INTEGER},
+            </if>
+            <if test="totalOutOrder != null">
+                #{totalOutOrder,jdbcType=INTEGER},
+            </if>
+            <if test="sucRate != null">
+                #{sucRate,jdbcType=DOUBLE},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.info.back.vo.PerformanceCountRecord">
+        update performance_count_record
+        <set>
+            <if test="userName != null">
+                user_name = #{userName,jdbcType=VARCHAR},
+            </if>
+            <if test="groupLevel != null">
+                group_level = #{groupLevel,jdbcType=VARCHAR},
+            </if>
+            <if test="tel != null">
+                tel = #{tel,jdbcType=VARCHAR},
+            </if>
+            <if test="sysOrder != null">
+                sys_order = #{sysOrder,jdbcType=INTEGER},
+            </if>
+            <if test="handOrder != null">
+                hand_order = #{handOrder,jdbcType=INTEGER},
+            </if>
+            <if test="outOrder != null">
+                out_order = #{outOrder,jdbcType=INTEGER},
+            </if>
+            <if test="returnPrincipal != null">
+                return_principal = #{returnPrincipal,jdbcType=INTEGER},
+            </if>
+            <if test="renewalCount != null">
+                renewal_count = #{renewalCount,jdbcType=INTEGER},
+            </if>
+            <if test="fee != null">
+                fee = #{fee,jdbcType=INTEGER},
+            </if>
+            <if test="countDate != null">
+                count_date = #{countDate,jdbcType=DATE},
+            </if>
+            <if test="totalIntoOrder != null">
+                total_into_order = #{totalIntoOrder,jdbcType=INTEGER},
+            </if>
+            <if test="totalOutOrder != null">
+                total_out_order = #{totalOutOrder,jdbcType=INTEGER},
+            </if>
+            <if test="sucRate != null">
+                suc_rate = #{sucRate,jdbcType=DOUBLE},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.info.back.vo.PerformanceCountRecord">
+    update performance_count_record
+    set user_name = #{userName,jdbcType=VARCHAR},
+    group_level = #{groupLevel,jdbcType=VARCHAR},
+    tel = #{tel,jdbcType=VARCHAR},
+    sys_order = #{sysOrder,jdbcType=INTEGER},
+    hand_order = #{handOrder,jdbcType=INTEGER},
+    out_order = #{outOrder,jdbcType=INTEGER},
+    return_principal = #{returnPrincipal,jdbcType=INTEGER},
+    renewal_count = #{renewalCount,jdbcType=INTEGER},
+    fee = #{fee,jdbcType=INTEGER},
+    count_date = #{countDate,jdbcType=DATE},
+    total_into_order = #{totalIntoOrder,jdbcType=INTEGER},
+    total_out_order = #{totalOutOrder,jdbcType=INTEGER},
+    suc_rate = #{sucRate,jdbcType=DOUBLE},
+    create_date = #{createDate,jdbcType=TIMESTAMP},
+    update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <select id="selectByCountDateAndName" parameterType="HashMap" resultMap="BaseResultMap">
+        select * from performance_count_record
+        <where>
+            1=1
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="countDate != null and countDate != ''">
+                and count_date = #{countDate}
+            </if>
+            <if test="groupLevel != null and groupLevel != ''">
+                and group_level = #{groupLevel}
+            </if>
+            <if test="getLast != null and getLast != ''">
+                and count_date &lt; #{getLast}
+            </if>
+        </where>
+        ORDER BY count_date DESC limit 1
+    </select>
+
+    <select id="findAll" parameterType="HashMap" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from performance_count_record
+        <where>
+            <if test="name != null and name != ''">
+                and user_name = #{name}
+            </if>
+            <if test="begDate != null and begDate != ''">
+                and count_date &gt;= #{begDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and count_date &lt;= #{endDate}
+            </if>
+            <if test="groupLevel != null and groupLevel != ''">
+                and group_level=#{groupLevel}
+            </if>
+            <if test="tel != null and tel != ''">
+                and tel=#{tel}
+            </if>
+        </where>
+        ORDER BY
+        <if test="sortBy != null and sortBy != ''">
+            ${sortBy} DESC,
+        </if>
+        count_date DESC,id DESC
+    </select>
+    <select id="findAllCount" parameterType="HashMap" resultType="Integer">
+        select count(1)
+        from performance_count_record
+        <where>
+            <if test="tel != null and tel != ''">
+                and tel=#{tel}
+            </if>
+            <if test="groupLevel != null and groupLevel != ''">
+                and group_level=#{groupLevel}
+            </if>
+            <if test="begDate != null and begDate != ''">
+                and count_date &gt;= #{begDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and count_date &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+
+    <select id="getTotal" parameterType="HashMap" resultType="com.info.back.vo.PerformanceTotalResult">
+        select sum(sys_order) as totalSysOrder, sum(hand_order) as totalHandOrder, sum(out_order) as totalSucOrder, sum(return_principal) as totalSucPrinc,
+        sum(fee) as totalFee,
+        sum(renewal_count) as totalRenewalCount
+        from performance_count_record
+        <where>
+            <if test="tel != null and tel != ''">
+                and tel=#{tel}
+            </if>
+            <if test="groupLevel != null and groupLevel != ''">
+                and group_level=#{groupLevel}
+            </if>
+            <if test="begDate != null and begDate != ''">
+                and count_date &gt;= #{begDate}
+            </if>
+            <if test="endDate != null and endDate != ''">
+                and count_date &lt;= #{endDate}
+            </if>
+        </where>
+    </select>
+</mapper>

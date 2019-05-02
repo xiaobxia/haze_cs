@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+    <!-- 配置Job详情 -->
+    <bean name="middleServiceJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.info.back.task.clusterquartz.job.JobDetailBean"/>
+        <property name="durability" value="true"/>
+        <property name="requestsRecovery" value="false"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="targetObject" value="taskJobMiddleService" />
+                <entry key="targetMethod" value="autoDispatch" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- 配置触发时间 -->
+    <bean name="middleServiceJobScheduler" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="middleServiceJob"/>
+        <property name="cronExpression">
+            <value>0 0 0,3,4,15,17,18,20 * * ?</value>
+        </property>
+        <property name="timeZone">
+            <value>GMT+8:00</value>
+        </property>
+    </bean>
+    <!-- 配置Job详情 -->
+    <bean name="pushZzcBlackListJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.info.back.task.clusterquartz.job.JobDetailBean"/>
+        <property name="durability" value="true"/>
+        <property name="requestsRecovery" value="false"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="targetObject" value="taskJobMiddleService" />
+                <entry key="targetMethod" value="pushZzcBlackList" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- 配置触发时间 -->
+    <bean name="pushZzcBlackListJobScheduler" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="pushZzcBlackListJob"/>
+        <property name="cronExpression">
+            <value>0 30 23 10 * ?</value>
+        </property>
+        <property name="timeZone">
+            <value>GMT+8:00</value>
+        </property>
+    </bean>
+    <!-- 配置Job详情 -->
+    <bean name="countPerformanceJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.info.back.task.clusterquartz.job.JobDetailBean"/>
+        <property name="durability" value="true"/>
+        <property name="requestsRecovery" value="false"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="targetObject" value="taskJobMiddleService" />
+                <entry key="targetMethod" value="countPerformanceJob" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- 配置触发时间 -->
+    <bean name="countPerformanceJobScheduler" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="countPerformanceJob"/>
+        <property name="cronExpression">
+            <value>0 0/2 * * * ?</value>
+        </property>
+        <property name="timeZone">
+            <value>GMT+8:00</value>
+        </property>
+    </bean>
+    <!-- 配置Job详情 -->
+    <!--<bean name="statisticsJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">-->
+    <!--<property name="jobClass" value="com.info.back.task.clusterquartz.job.JobDetailBean"/>-->
+    <!--<property name="durability" value="true"/>-->
+    <!--<property name="requestsRecovery" value="false"/>-->
+    <!--<property name="jobDataAsMap">-->
+    <!--<map>-->
+    <!--<entry key="targetObject" value="taskJobStatistics" />-->
+    <!--<entry key="targetMethod" value="callProcedure" />-->
+    <!--</map>-->
+    <!--</property>-->
+    <!--</bean>-->
+
+    <!-- 配置触发时间 -->
+    <!--<bean name="statisticsJobScheduler" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">-->
+    <!--<property name="jobDetail" ref="statisticsJob"/>-->
+    <!--<property name="cronExpression">-->
+    <!--<value>0 0 2 * * ?</value>-->
+    <!--</property>-->
+    <!--<property name="timeZone">-->
+    <!--<value>GMT+8:00</value>-->
+    <!--</property>-->
+    <!--</bean>-->
+    <!-- 配置Job详情 -->
+    <bean name="withholdStatusJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.info.back.task.clusterquartz.job.JobDetailBean"/>
+        <property name="durability" value="true"/>
+        <property name="requestsRecovery" value="false"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="targetObject" value="taskWithholdStatus" />
+                <entry key="targetMethod" value="updateStatus" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- 配置触发时间 -->
+    <bean name="withholdStatusJobScheduler" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="withholdStatusJob"/>
+        <property name="cronExpression">
+            <value>0 25 10,14,21 * * ?</value>
+        </property>
+        <property name="timeZone">
+            <value>GMT+8:00</value>
+        </property>
+    </bean>
+
+    <!-- 配置Job详情 -->
+    <bean name="collectionSucCountJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <property name="jobClass" value="com.info.back.task.clusterquartz.job.JobDetailBean"/>
+        <property name="durability" value="true"/>
+        <property name="requestsRecovery" value="false"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="targetObject" value="taskJobMiddleService" />
+                <entry key="targetMethod" value="countCollectionResult" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- 配置触发时间 -->
+    <bean name="collectionSucCountJobScheduler" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+        <property name="jobDetail" ref="collectionSucCountJob"/>
+        <property name="cronExpression">
+            <value>0 0/30 * * * ?</value>
+        </property>
+        <property name="timeZone">
+            <value>GMT+8:00</value>
+        </property>
+    </bean>
+
+</beans>

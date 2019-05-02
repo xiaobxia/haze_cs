@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.info.back.dao.ICollectionSucCountDao" >
+  <resultMap id="BaseResultMap" type="com.info.back.vo.CollectionSucCount" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="group_level" property="groupLevel" jdbcType="CHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="into_num" property="intoNum" jdbcType="INTEGER" />
+    <result column="suc_num" property="sucNum" jdbcType="INTEGER" />
+    <result column="renew_num" property="renewNum" jdbcType="INTEGER" />
+    <result column="repay_num" property="repayNum" jdbcType="INTEGER" />
+    <result column="suc_rate" property="sucRate" jdbcType="DECIMAL" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, group_level, user_name, into_num, suc_num, renew_num, repay_num, suc_rate, create_time,
+    update_time
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from collection_suc_count
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByGroupAndNameAndCreateDate" resultMap="BaseResultMap" parameterType="java.util.HashMap">
+    select
+    <include refid="Base_Column_List" />
+    from collection_suc_count
+    where group_level = #{group} and user_name = #{name} and create_time like CONCAT(#{createTime},'%')
+  </select>
+
+  <select id="selectByLevelAndName" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from collection_suc_count
+    where group_level = #{level} and user_name = #{name}
+  </select>
+
+  <select id="findAll" parameterType="HashMap" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from collection_suc_count
+    <where>
+      <if test="groupLevel != null and groupLevel != ''">
+        and group_level = #{groupLevel}
+      </if>
+      <if test="collectName != null and collectName != ''">
+        and user_name = #{collectName}
+      </if>
+      <if test="startDate != null and startDate != ''">
+        and create_time &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and create_time &lt;= date_add(#{endDate}, interval 1 day)
+      </if>
+    </where>
+    ORDER BY
+    <if test="sortBy != null and sortBy != ''">
+      ${sortBy} DESC,
+    </if>
+    into_num desc
+  </select>
+
+  <select id="findAllCount" parameterType="HashMap" resultType="Integer">
+    select count(1)
+    from collection_suc_count
+    <where>
+      <if test="groupLevel != null and groupLevel != ''">
+        and group_level = #{groupLevel}
+      </if>
+      <if test="collectName != null and collectName != ''">
+        and user_name = #{collectName}
+      </if>
+      <if test="startDate != null and startDate != ''">
+        and create_time &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and create_time &lt;= date_add(#{endDate}, interval 1 day)
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from collection_suc_count
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.info.back.vo.CollectionSucCount" >
+    insert into collection_suc_count (id, group_level, user_name,
+      into_num, suc_num, renew_num,
+      repay_num, suc_rate, create_time,
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{groupLevel,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR},
+      #{intoNum,jdbcType=INTEGER}, #{sucNum,jdbcType=INTEGER}, #{renewNum,jdbcType=INTEGER},
+      #{repayNum,jdbcType=INTEGER}, #{sucRate,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.info.back.vo.CollectionSucCount" >
+    insert into collection_suc_count
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="groupLevel != null" >
+        group_level,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="intoNum != null" >
+        into_num,
+      </if>
+      <if test="sucNum != null" >
+        suc_num,
+      </if>
+      <if test="renewNum != null" >
+        renew_num,
+      </if>
+      <if test="repayNum != null" >
+        repay_num,
+      </if>
+      <if test="sucRate != null" >
+        suc_rate,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="groupLevel != null" >
+        #{groupLevel,jdbcType=CHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="intoNum != null" >
+        #{intoNum,jdbcType=INTEGER},
+      </if>
+      <if test="sucNum != null" >
+        #{sucNum,jdbcType=INTEGER},
+      </if>
+      <if test="renewNum != null" >
+        #{renewNum,jdbcType=INTEGER},
+      </if>
+      <if test="repayNum != null" >
+        #{repayNum,jdbcType=INTEGER},
+      </if>
+      <if test="sucRate != null" >
+        #{sucRate,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.info.back.vo.CollectionSucCount" >
+    update collection_suc_count
+    <set >
+      <if test="groupLevel != null" >
+        group_level = #{groupLevel,jdbcType=CHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="intoNum != null" >
+        into_num = #{intoNum,jdbcType=INTEGER},
+      </if>
+      <if test="sucNum != null" >
+        suc_num = #{sucNum,jdbcType=INTEGER},
+      </if>
+      <if test="renewNum != null" >
+        renew_num = #{renewNum,jdbcType=INTEGER},
+      </if>
+      <if test="repayNum != null" >
+        repay_num = #{repayNum,jdbcType=INTEGER},
+      </if>
+      <if test="sucRate != null" >
+        suc_rate = #{sucRate,jdbcType=DECIMAL},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.info.back.vo.CollectionSucCount" >
+    update collection_suc_count
+    set group_level = #{groupLevel,jdbcType=CHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      into_num = #{intoNum,jdbcType=INTEGER},
+      suc_num = #{sucNum,jdbcType=INTEGER},
+      renew_num = #{renewNum,jdbcType=INTEGER},
+      repay_num = #{repayNum,jdbcType=INTEGER},
+      suc_rate = #{sucRate,jdbcType=DECIMAL},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

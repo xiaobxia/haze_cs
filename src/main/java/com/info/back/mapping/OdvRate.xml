@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.info.back.dao.IOdvRateDao" >
+  <resultMap id="BaseResultMap" type="com.info.back.vo.OdvRate">
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="odv_id" property="odvId" jdbcType="INTEGER" />
+    <result column="company_id" property="companyId" jdbcType="VARCHAR" />
+    <result column="group_level" property="groupLevel" jdbcType="VARCHAR" />
+    <result column="assign_rate" property="assignRate" jdbcType="DOUBLE" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, odv_id, company_id, group_level, assign_rate, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from odv_rate
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByOdvId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+    SELECT count(1) from odv_rate where odv_id = #{odvId, jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByGroupLevel" resultType="OdvRate" parameterType="java.lang.Integer" >
+    select a.id, b.user_name as odvName, a.assign_rate as assignRate,a.odv_id as odvId
+    from odv_rate a LEFT JOIN back_user b on a.odv_id=b.id
+    where a.group_level = #{level,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from odv_rate
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="OdvRate" >
+    insert into odv_rate (id, odv_id, company_id,
+      group_level, assign_rate, create_time,
+      update_time)
+    values (#{id,jdbcType=INTEGER}, #{odvId,jdbcType=INTEGER}, #{companyId,jdbcType=VARCHAR},
+      #{groupLevel,jdbcType=VARCHAR}, #{assignRate,jdbcType=DOUBLE}, #{createTime,jdbcType=TIMESTAMP},
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="OdvRate" >
+    insert into odv_rate
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="odvId != null" >
+        odv_id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="groupLevel != null" >
+        group_level,
+      </if>
+      <if test="assignRate != null" >
+        assign_rate,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="odvId != null" >
+        #{odvId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupLevel != null" >
+        #{groupLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="assignRate != null" >
+        #{assignRate,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="OdvRate" >
+    update odv_rate
+    <set >
+      <if test="odvId != null" >
+        odv_id = #{odvId,jdbcType=INTEGER},
+      </if>
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=VARCHAR},
+      </if>
+      <if test="groupLevel != null" >
+        group_level = #{groupLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="assignRate != null" >
+        assign_rate = #{assignRate,jdbcType=DOUBLE},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="OdvRate" >
+    update odv_rate
+    set odv_id = #{odvId,jdbcType=INTEGER},
+      company_id = #{companyId,jdbcType=VARCHAR},
+      group_level = #{groupLevel,jdbcType=VARCHAR},
+      assign_rate = #{assignRate,jdbcType=DOUBLE},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

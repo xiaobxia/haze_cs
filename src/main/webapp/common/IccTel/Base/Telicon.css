@@ -1,0 +1,161 @@
+﻿[class*="icon-"] {
+    font-family: "iconfont" !important;
+    font-size: 1em;
+    font-style: normal;
+    line-height: 1.2em;
+}
+
+.icon-blank {
+    background: url('icons/blank.gif') no-repeat center center;
+}
+
+.icon-add:before {
+    content: "\e670";
+    color: Green;
+}
+
+.icon-edit:before {
+    content: "\e671";
+    color: Green;
+}
+
+.icon-clear:before {
+    content: "\e6da";
+}
+
+.icon-remove:before {
+    content: "\e6d1";
+    color: Green;
+}
+
+.icon-save:before {
+    content: "\e682";
+    color: blue;
+}
+
+.icon-cut:before {
+    content: "\e689";
+}
+
+.icon-ok:before {
+    content: "\e674";
+}
+
+.icon-no {
+    background: url('icons/no.png') no-repeat center center;
+}
+
+.icon-cancel:before {
+    content: "\e684";
+    color: red;
+}
+
+.icon-reload:before {
+    content: "\e673";
+    color: Green;
+}
+
+.icon-search:before {
+    content: "\e70a";
+    color: blue;
+}
+
+.icon-print:before {
+    content: "\e66e";
+}
+
+.icon-help:before {
+    content: "\e736";
+}
+
+.icon-undo {
+    background: url('icons/undo.png') no-repeat center center;
+}
+
+.icon-redo {
+    background: url('icons/redo.png') no-repeat center center;
+}
+
+.icon-back {
+    background: url('icons/back.png') no-repeat center center;
+}
+
+.icon-sum {
+    background: url('icons/sum.png') no-repeat center center;
+}
+
+.icon-tip {
+    background: url('icons/tip.png') no-repeat center center;
+}
+
+.icon-filter {
+    background: url('icons/filter.png') no-repeat center center;
+}
+
+.icon-man {
+    background: url('icons/man.png') no-repeat center center;
+}
+
+.icon-lock:before {
+    content: "\e6ef";
+    color: Green;
+}
+
+
+.icon-mini-add {
+    background: url('icons/mini_add.png') no-repeat center center;
+}
+
+.icon-mini-edit {
+    background: url('icons/mini_edit.png') no-repeat center center;
+}
+
+.icon-mini-refresh {
+    background: url('icons/mini_refresh.png') no-repeat center center;
+}
+
+.icon-large-picture {
+    background: url('icons/large_picture.png') no-repeat center center;
+}
+
+.icon-large-clipart {
+    background: url('icons/large_clipart.png') no-repeat center center;
+}
+
+.icon-large-shapes {
+    background: url('icons/large_shapes.png') no-repeat center center;
+}
+
+.icon-large-smartart {
+    background: url('icons/large_smartart.png') no-repeat center center;
+}
+
+.icon-large-chart {
+    background: url('icons/large_chart.png') no-repeat center center;
+}
+/*2016.06.10 °æ±¾ºóÏûÊ§µÄÑùÊ½*/
+.icon-output {
+    background: url('icons/output.png') no-repeat center center;
+}
+
+.icon-data-recycl {
+    background: url('icons/data-recycl.png') no-repeat center center;
+}
+
+.icon-result-recycl {
+    background: url('icons/redo.png') no-repeat center center;
+}
+
+.icon-data-assign {
+    background: url('icons/plugin_edit.png') no-repeat center center;
+}
+
+.icon-data-clear {
+    background: url('icons/clear.png') no-repeat center center;
+}
+
+.icon-input {
+    background: url('icons/input.png') no-repeat center center;
+}
+
+.icon-cc-denglu:before { content: "\e73c"; }

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.info.back.dao.IOrderLifeCycleDao" >
+  <resultMap id="BaseResultMap" type="com.info.back.vo.OrderLifeCycle" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="loan_id" property="loanId" jdbcType="INTEGER" />
+    <result column="pay_id" property="payId" jdbcType="INTEGER" />
+    <result column="s1_time" property="s1Time" jdbcType="TIMESTAMP" />
+    <result column="current_level" property="currentLevel" jdbcType="TINYINT" />
+    <result column="current_status" property="currentStatus" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, loan_id, pay_id, s1_time, current_level, current_status, create_time, update_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from order_life_cycle
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="findHigherCount" resultType="Integer">
+    SELECT count(1) from order_life_cycle where loan_id = #{loanId} and s1_time = #{s1Time} and  current_level = #{level}
+  </select>
+
+  <select id="findByLoanIdAndGroup" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from order_life_cycle
+    where loan_id = #{orderId}
+    and current_level = #{group} order by create_time desc limit 1
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from order_life_cycle
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.info.back.vo.OrderLifeCycle" >
+    insert into order_life_cycle (id, loan_id, pay_id,
+      s1_time, current_level, current_status,
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{loanId,jdbcType=INTEGER}, #{payId,jdbcType=INTEGER},
+      #{s1Time,jdbcType=TIMESTAMP}, #{currentLevel,jdbcType=TINYINT}, #{currentStatus,jdbcType=TINYINT},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.info.back.vo.OrderLifeCycle" >
+    insert into order_life_cycle
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="loanId != null" >
+        loan_id,
+      </if>
+      <if test="payId != null" >
+        pay_id,
+      </if>
+      <if test="s1Time != null" >
+        s1_time,
+      </if>
+      <if test="currentLevel != null" >
+        current_level,
+      </if>
+      <if test="currentStatus != null" >
+        current_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="loanId != null" >
+        #{loanId,jdbcType=INTEGER},
+      </if>
+      <if test="payId != null" >
+        #{payId,jdbcType=INTEGER},
+      </if>
+      <if test="s1Time != null" >
+        #{s1Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentLevel != null" >
+        #{currentLevel,jdbcType=TINYINT},
+      </if>
+      <if test="currentStatus != null" >
+        #{currentStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.info.back.vo.OrderLifeCycle" >
+    update order_life_cycle
+    <set >
+      <if test="loanId != null" >
+        loan_id = #{loanId,jdbcType=INTEGER},
+      </if>
+      <if test="payId != null" >
+        pay_id = #{payId,jdbcType=INTEGER},
+      </if>
+      <if test="s1Time != null" >
+        s1_time = #{s1Time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="currentLevel != null" >
+        current_level = #{currentLevel,jdbcType=TINYINT},
+      </if>
+      <if test="currentStatus != null" >
+        current_status = #{currentStatus,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.info.back.vo.OrderLifeCycle" >
+    update order_life_cycle
+    set loan_id = #{loanId,jdbcType=INTEGER},
+      pay_id = #{payId,jdbcType=INTEGER},
+      s1_time = #{s1Time,jdbcType=TIMESTAMP},
+      current_level = #{currentLevel,jdbcType=TINYINT},
+      current_status = #{currentStatus,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

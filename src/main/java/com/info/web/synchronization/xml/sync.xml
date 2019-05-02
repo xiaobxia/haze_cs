@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.info.back.dao.IDataDao">
+	<!-- 还款信息 -->
+	<select id="getAssetRepayment"  resultType="HashMap" parameterType="HashMap">
+		select * from asset_repayment where id = #{ID}
+	</select>
+	<!-- 还款详情-->
+	<select id="getAssetRepaymentDetail" resultType="HashMap"  parameterType="HashMap">
+		select * from asset_repayment_detail  where asset_repayment_id = #{ID} and status in (2,30)
+	</select>
+	<!-- 通过用户ID拿到联系人列表 -->
+	<select id="getUserContacts" resultType="HashMap"  parameterType="HashMap">
+		select  * from user_contacts where user_id = #{USER_ID}
+	</select>
+	<!-- 银行卡信息 -->
+	<select id="getUserCardInfo" resultType="HashMap"  parameterType="HashMap">
+		select * from user_card_info where user_id = #{USER_ID} limit 1
+	</select>
+	<!-- 用户信息信息 -->
+	<select id="getUserInfo" resultType="HashMap"  parameterType="HashMap">
+		select * from user_info where id = #{USER_ID}
+	</select>
+	<!-- 通过借款ID拿到借款详情 -->
+	<select id="getAssetBorrowOrder" resultType="HashMap"  parameterType="HashMap">
+		select * from asset_borrow_order where id  = #{ORDER_ID}
+	</select>
+
+	<!-- 根据用户ID查询用户 -->
+	<select id="selectByUserId" resultType="com.info.web.copys.pojo.User" parameterType="java.lang.Integer">
+		select
+		id as id,
+		user_name as userName,
+		password as password,
+		pay_password as payPassword,
+		realname as realname,
+		realname_status as realnameStatus,
+		id_number as idNumber,
+		user_phone as userPhone,
+		education as education,
+		status as status,
+		invite_userid as inviteUserid,
+		user_sex as userSex,
+		marital_status as maritalStatus,
+		present_address as presentAddress,
+		present_address_distinct as presentAddressDistinct,
+		present_period as presentPeriod,
+		present_longitude as presentLongitude,
+		present_latitude as presentLatitude,
+		company_name as companyName,
+		company_address as companyAddress,
+		company_address_distinct as companyAddressDistinct,
+		company_longitude as companyLongitude,
+		company_latitude as companyLatitude,
+		company_phone as companyPhone,
+		company_period as companyPeriod,
+		frist_contact_relation as fristContactRelation,
+		first_contact_name as firstContactName,
+		first_contact_phone as firstContactPhone,
+		second_contact_name as secondContactName,
+		second_contact_phone as secondContactPhone,
+		second_contact_relation as secondContactRelation,
+		head_portrait as headPortrait,
+		idcard_img_z as idcardImgZ,
+		idcard_img_f as idcardImgF,
+		amount_max as amountMax,
+		amount_addsum as amountAddsum,
+		amount_available as amountAvailable,
+		history_over_num as historyOverNum,
+		user_from as userFrom,
+		user_contact_size as userContactSize,
+		equipment_number as equipmentNumber,
+		new_flag as newFlag,
+		qq as qq,
+		user_phone as userPhone,
+		taobao_account as taobaoAccount,
+		email as email,
+		zm_score as zmScore,
+		create_time as createTime,
+		wechat_account as wechatAccount,
+		td_status as tdStatus,
+		td_verify_time as tdVerifyTime,
+		td_verify_next_time as tdVerifyNextTime,
+		td_task_id as tdTaskId,
+		td_fqz_data as tdFqzData,
+		td_verify_time as tdVerifyTime,
+		zm_token as zmToken
+		from user_info
+		where id = #{id}
+	</select>
+
+	<!-- 查询通讯录列表 -->
+	<select id="selectUserContactsPage" parameterType="HashMap" resultType="com.info.web.copys.pojo.UserContacts" >
+		select
+		uc.id id,
+		uc.user_id userId,
+		uc.user_name userName,
+		uc.contact_name contactName,
+		uc.contact_phone contactPhone,
+		uc.create_time createTime
+		FROM user_contacts uc
+		<where>
+			<if test="userId !=null and userId !=''">
+				uc.user_id=#{userId}
+			</if>
+			<if test="userPhone !=null and userPhone !=''">
+				AND uc.contact_phone=#{userPhone}
+			</if>
+			<if test="contactName !=null and contactName !=''">
+				AND uc.contact_name=#{contactName}
+			</if>
+		</where>
+		order by uc.create_time desc
+	</select>
+
+	<select id="selectCreditReportByBorrowId" parameterType="HashMap" resultMap="BaseResultMap">
+		SELECT * from risk_orders where asset_borrow_id=#{assetBorrowId} limit 1
+	</select>
+
+	<select id="selectUserLastLoginLog" parameterType="String" resultType="HashMap">
+		SELECT max(a.`login_time`) lastLoginTime   FROM `user_login_log` a where `user_id` = #{userId}
+	</select>
+
+	<select id="findUserFromData" parameterType="java.util.List" resultType="HashMap">
+		select id, user_from from user_info
+		where id in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+
+
+	<select id="findUserLoanRecord" parameterType="Integer" resultType="com.info.back.vo.LoanRecord">
+		SELECT `asset_order_id` loanId, `credit_repayment_time` loanTime,b.realname name,
+		repayment_real_time lastRepayTime,
+		repaymented_amount repayedAmount, repayment_amount total, late_day lateDays
+		FROM `asset_repayment` a LEFT join user_info b on a.`user_id`= b.id
+		where a.`user_id` = #{userId}
+	</select>
+
+	<select id="findUserRenewOrPayRecord" parameterType="Integer" resultType="com.info.back.vo.RenewOrPayRecord">
+		SELECT * from (SELECT a.`asset_repayment_id` repayId,
+       a.`updated_at` handleTime,
+       case when locate('部分还款', a.`remark`)> 0 then '部分还款' when locate('还款', a.`remark`)> 0
+	   and locate('部分', a.`remark`)= 0 then '还款' ELSE a.`remark` end as handleType, a.true_repayment_money repayedAmount,(b.`repayment_amount`-b.`repaymented_amount`) leftAmount, b.`late_day` lateDays
+	  from `asset_repayment_detail` a
+	  LEFT JOIN `asset_repayment` b on a.`asset_order_id`= b.`asset_order_id`
+	 where a.`asset_order_id`= #{assetOrderId}
+	   and a.order_id!= '11111111111'
+	   and a.`status`= 2
+	 union all
+	SELECT arr.`asset_repayment_id` repayId, arr.`updated_at` handleTime, '续期' handleType, arr.`sum_fee` repayedAmount,(ar.`repayment_amount`-ar.`repaymented_amount`) leftAmount, ar.`late_day` lateDays
+	  FROM `asset_repayment` ar
+	  LEFT JOIN `asset_renewal_record` arr on ar.id= arr.`asset_repayment_id`
+	 WHERE ar.`asset_order_id`= #{assetOrderId}
+	   and arr.`status`= 1) ar ORDER BY ar.handleTime DESC
+	</select>
+
+	<select id="selectRenewalRecord" parameterType="Integer" resultType="HashMap">
+		SELECT `plan_late_fee` lateFee, renewal_fee renewalFee, repayment_interest repaymentInterest FROM `asset_renewal_record`
+		where `asset_repayment_id` = #{repayId} and `status` = 1 ORDER BY `created_at` DESC LIMIT  1
+	</select>
+
+	<select id="findOrderRenewalCount" parameterType="java.util.List" resultType="HashMap">
+		SELECT b.`asset_order_id` as loanId , count(1) as num FROM `asset_renewal_record` a LEFT JOIN
+		`asset_repayment` b on a.`asset_repayment_id` = b.`id`  where a.`status` = 1 and a.`plan_late_fee` > 0 and b.asset_order_id in
+		<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+		GROUP BY a.`asset_repayment_id`
+	</select>
+
+	<select id="getOrderRenewTime" parameterType="String" resultType="Date">
+		select created_at from `asset_renewal_record` where asset_repayment_id = #{repayId} and status = 1 and plan_late_fee > 0
+	</select>
+	
+	<select id="getOrderRepayTime" parameterType="String" resultType="Date">
+		select repayment_real_time from asset_repayment where id = #{repayId} and status = 34
+	</select>
+
+	<resultMap id="BaseResultMap" type="com.info.risk.pojo.RiskOrders">
+		<id column="id" property="id"/>
+		<result column="user_id" property="userId"/>
+		<result column="order_type" property="orderType"/>
+		<result column="order_no" property="orderNo" />
+		<result column="act" property="act" />
+		<result column="req_params" property="reqParams" />
+		<result column="return_params" property="returnParams" />
+		<result column="notify_time" property="notifyTime" />
+		<result column="notify_params" property="notifyParams" />
+		<result column="add_time" property="addTime" />
+		<result column="add_ip" property="addIp"/>
+		<result column="updateTime" property="updateTime"/>
+		<result column="status" property="status"/>
+		<result column="asset_borrow_id" property="assetBorrowId" />
+		<result column="auto_sjmh" property="autoSjmh" />
+	</resultMap>
+</mapper>

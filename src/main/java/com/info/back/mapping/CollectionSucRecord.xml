@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.info.back.dao.ICollectionSucRecordDao" >
+  <resultMap id="BaseResultMap" type="com.info.back.vo.CollectionSucRecord" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="late_date" property="lateDate" jdbcType="DATE" />
+    <result column="recharge_date" property="rechargeDate" jdbcType="TIMESTAMP" />
+    <result column="loan_id" property="loanId" jdbcType="INTEGER" />
+    <result column="loan_name" property="loanName" jdbcType="VARCHAR" />
+    <result column="loan_tel" property="loanTel" jdbcType="VARCHAR" />
+    <result column="recharge_status" property="rechargeStatus" jdbcType="INTEGER" />
+    <result column="loan_money" property="loanMoney" jdbcType="DECIMAL" />
+    <result column="late_fee" property="lateFee" jdbcType="DECIMAL" />
+    <result column="reduc_money" property="reducMoney" jdbcType="DECIMAL" />
+    <result column="repayed_amount" property="repayedAmount" jdbcType="DECIMAL" />
+    <result column="late_day" property="lateDay" jdbcType="INTEGER" />
+    <result column="collect_name" property="collectName" jdbcType="VARCHAR" />
+    <result column="dispatch_name" property="dispatchName" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, late_date, recharge_date, loan_id, loan_name, loan_tel, recharge_status, loan_money, late_fee,
+    reduc_money, repayed_amount, late_day, collect_name, dispatch_name, create_date, update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from collection_suc_record
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+
+  <select id="findSucCount" resultType="com.info.back.vo.CollectionSucCount">
+    SELECT b.current_overdue_level groupLevel, a.collect_name userName, sum(case a.`recharge_status` when 4 then 1 else 0 end) repayNum,
+    sum(case a.`recharge_status` when 5 then 1 else 0 end) renewNum FROM
+    `collection_suc_record` a JOIN `mman_loan_collection_order` b on a.`loan_id` = b.`loan_id`
+    <where>
+      <if test="startTime != null">
+        and a.`create_date` &gt;= #{startTime}
+      </if>
+      <if test="endTime != null">
+        and a.`create_date` &lt; #{endTime}
+      </if>
+    </where>
+    GROUP BY b.current_overdue_level, a.collect_name
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from collection_suc_record
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.info.back.vo.CollectionSucRecord" >
+    insert into collection_suc_record (id, late_date, recharge_date, loan_id,
+      loan_name, loan_tel, recharge_status, 
+      loan_money, late_fee, reduc_money, repayed_amount,
+      late_day, collect_name, dispatch_name, 
+      create_date, update_date)
+    values (#{id,jdbcType=INTEGER}, #{lateDate,jdbcType=DATE}, #{rechargeDate,jdbcType=TIMESTAMP}, #{loanId,jdbcType=INTEGER},
+      #{loanName,jdbcType=VARCHAR}, #{loanTel,jdbcType=VARCHAR}, #{rechargeStatus,jdbcType=INTEGER}, 
+      #{loanMoney,jdbcType=DECIMAL}, #{lateFee,jdbcType=DECIMAL}, #{reducMoney,jdbcType=DECIMAL}, #{repayedAmount,jdbcType=DECIMAL}
+      #{lateDay,jdbcType=INTEGER}, #{collectName,jdbcType=VARCHAR}, #{dispatchName,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.info.back.vo.CollectionSucRecord" >
+    insert into collection_suc_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="lateDate != null">
+        late_date,
+      </if>
+      <if test="rechargeDate != null" >
+        recharge_date,
+      </if>
+      <if test="loanId != null" >
+        loan_id,
+      </if>
+      <if test="loanName != null" >
+        loan_name,
+      </if>
+      <if test="loanTel != null" >
+        loan_tel,
+      </if>
+      <if test="rechargeStatus != null" >
+        recharge_status,
+      </if>
+      <if test="loanMoney != null" >
+        loan_money,
+      </if>
+      <if test="lateFee != null" >
+        late_fee,
+      </if>
+      <if test="reducMoney != null" >
+        reduc_money,
+      </if>
+      <if test="repayedAmount != null">
+        repayed_amount,
+      </if>
+      <if test="lateDay != null" >
+        late_day,
+      </if>
+      <if test="collectName != null" >
+        collect_name,
+      </if>
+      <if test="dispatchName != null" >
+        dispatch_name,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="lateDate != null">
+        #{lateDate, jdbcType=DATE},
+      </if>
+      <if test="rechargeDate != null" >
+        #{rechargeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanId != null" >
+        #{loanId,jdbcType=INTEGER},
+      </if>
+      <if test="loanName != null" >
+        #{loanName,jdbcType=VARCHAR},
+      </if>
+      <if test="loanTel != null" >
+        #{loanTel,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeStatus != null" >
+        #{rechargeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="loanMoney != null" >
+        #{loanMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="lateFee != null" >
+        #{lateFee,jdbcType=DECIMAL},
+      </if>
+      <if test="reducMoney != null" >
+        #{reducMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="repayedAmount != null">
+        #{repayedAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lateDay != null" >
+        #{lateDay,jdbcType=INTEGER},
+      </if>
+      <if test="collectName != null" >
+        #{collectName,jdbcType=VARCHAR},
+      </if>
+      <if test="dispatchName != null" >
+        #{dispatchName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.info.back.vo.CollectionSucRecord" >
+    update collection_suc_record
+    <set >
+      <if test="rechargeDate != null" >
+        recharge_date = #{rechargeDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="loanId != null" >
+        loan_id = #{loanId,jdbcType=INTEGER},
+      </if>
+      <if test="loanName != null" >
+        loan_name = #{loanName,jdbcType=VARCHAR},
+      </if>
+      <if test="loanTel != null" >
+        loan_tel = #{loanTel,jdbcType=VARCHAR},
+      </if>
+      <if test="rechargeStatus != null" >
+        recharge_status = #{rechargeStatus,jdbcType=INTEGER},
+      </if>
+      <if test="loanMoney != null" >
+        loan_money = #{loanMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="lateFee != null" >
+        late_fee = #{lateFee,jdbcType=DECIMAL},
+      </if>
+      <if test="reducMoney != null" >
+        reduc_money = #{reducMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="lateDay != null" >
+        late_day = #{lateDay,jdbcType=INTEGER},
+      </if>
+      <if test="collectName != null" >
+        collect_name = #{collectName,jdbcType=VARCHAR},
+      </if>
+      <if test="dispatchName != null" >
+        dispatch_name = #{dispatchName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.info.back.vo.CollectionSucRecord" >
+    update collection_suc_record
+    set recharge_date = #{rechargeDate,jdbcType=TIMESTAMP},
+      loan_id = #{loanId,jdbcType=INTEGER},
+      loan_name = #{loanName,jdbcType=VARCHAR},
+      loan_tel = #{loanTel,jdbcType=VARCHAR},
+      recharge_status = #{rechargeStatus,jdbcType=INTEGER},
+      loan_money = #{loanMoney,jdbcType=DECIMAL},
+      late_fee = #{lateFee,jdbcType=DECIMAL},
+      reduc_money = #{reducMoney,jdbcType=DECIMAL},
+      late_day = #{lateDay,jdbcType=INTEGER},
+      collect_name = #{collectName,jdbcType=VARCHAR},
+      dispatch_name = #{dispatchName,jdbcType=VARCHAR},
+      create_date = #{createDate,jdbcType=TIMESTAMP},
+      update_date = #{updateDate,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="findAll" parameterType="HashMap" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from collection_suc_record
+    <where>
+      <if test="loanTel != null and loanTel != ''">
+        and loan_tel = #{loanTel}
+      </if>
+      <if test="collectName != null and collectName != ''">
+        and collect_name = #{collectName}
+      </if>
+      <if test="startDate != null and startDate != ''">
+        and create_date &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and create_date &lt;= #{endDate}
+      </if>
+      <if test="rechargeStatus != null and rechargeStatus != ''">
+        and recharge_status=#{rechargeStatus}
+      </if>
+    </where>
+    ORDER BY
+    create_date DESC
+  </select>
+
+  <select id="findAllCount" parameterType="HashMap" resultType="Integer">
+    select count(1)
+    from collection_suc_record
+    <where>
+      <if test="loanTel != null and loanTel != ''">
+        and loan_tel = #{loanTel}
+      </if>
+      <if test="collectName != null and collectName != ''">
+        and collect_name = #{collectName}
+      </if>
+      <if test="startDate != null and startDate != ''">
+        and create_date &gt;= #{startDate}
+      </if>
+      <if test="endDate != null and endDate != ''">
+        and create_date &lt;= #{endDate}
+      </if>
+      <if test="rechargeStatus != null and rechargeStatus != ''">
+        and recharge_status=#{rechargeStatus}
+      </if>
+    </where>
+  </select>
+</mapper>

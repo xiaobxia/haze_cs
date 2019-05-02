@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.info.back.dao.IRemarkDao" >
+    <resultMap id="BaseResultRemarkMap" type="com.info.back.vo.jxl.Remark" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="assign_id" property="assignId" jdbcType="INTEGER" />
+        <result column="remark_content" property="remarkContent" jdbcType="VARCHAR" />
+        <result column="remark_flag" property="remarkFlag" jdbcType="INTEGER" />
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+        <result column="job_name" property="jobName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="queryBorrowRemark" resultMap="BaseResultRemarkMap">
+        select br.*,concat(br.job_name,' ',br.job_phone) as jobName
+        from borrow_remark br
+        left join asset_borrow_order abo on abo.id = br.assign_id
+        where abo.user_id = #{userId}
+        order by br.id DESC
+    </select>
+</mapper>
