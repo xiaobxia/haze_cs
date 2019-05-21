@@ -15,9 +15,9 @@ public class PayContents {
     public static final String COLLECTION_ADVISE_UPDATE_URL=propertiesLoader.getProperty("collection_advise_update_url");//小鱼儿风控催收建议推送地址
     public static final String XJX_JIANMIAN_URL=propertiesLoader.getProperty("XJX.jianmian.url");//小鱼儿减免推送地址
 
-    public static final String ZZC_USERNAME = propertiesLoader.getProperty("zzc.username");
-    public static final String ZZC_PASSWORD = propertiesLoader.getProperty("zzc.password");
-    public static final String ZZC_PUSHBLACKLIST_URL = propertiesLoader.getProperty("zzc.pushblacklist.url");
+    public static final String ZZC_USERNAME = "";//propertiesLoader.getProperty("zzc.username");
+    public static final String ZZC_PASSWORD = "";//propertiesLoader.getProperty("zzc.password");
+    public static final String ZZC_PUSHBLACKLIST_URL = "";//propertiesLoader.getProperty("zzc.pushblacklist.url");
 
     public static final String APP_NAME = propertiesLoader.getProperty("APP_NAME");
     public static final String MQ_TOPIC = propertiesLoader.getProperty("MQ_TOPIC");
