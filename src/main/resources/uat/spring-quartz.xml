@@ -28,7 +28,7 @@
         </property>
     </bean>
     <!-- 配置Job详情 -->
-    <bean name="pushZzcBlackListJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+    <!--<bean name="pushZzcBlackListJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="jobClass" value="com.info.back.task.clusterquartz.job.JobDetailBean"/>
         <property name="durability" value="true"/>
         <property name="requestsRecovery" value="false"/>
@@ -40,7 +40,7 @@
         </property>
     </bean>
 
-    <!-- 配置触发时间 -->
+    &lt;!&ndash; 配置触发时间 &ndash;&gt;
     <bean name="pushZzcBlackListJobScheduler" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
         <property name="jobDetail" ref="pushZzcBlackListJob"/>
         <property name="cronExpression">
@@ -49,7 +49,7 @@
         <property name="timeZone">
             <value>GMT+8:00</value>
         </property>
-    </bean>
+    </bean>-->
     <!-- 配置Job详情 -->
     <bean name="countPerformanceJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
         <property name="jobClass" value="com.info.back.task.clusterquartz.job.JobDetailBean"/>

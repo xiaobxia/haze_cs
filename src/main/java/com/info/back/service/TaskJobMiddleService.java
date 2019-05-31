@@ -464,7 +464,7 @@ public class TaskJobMiddleService {
      * 晚上 11:30 开始推送中智诚黑名单
      */
     public void pushZzcBlackList() {
-        log.info("push zzc blackList begin!");
+        /*log.info("push zzc blackList begin!");
         List<HashMap<String, Object>> hashMapList = mmanLoanCollectionOrderService.selectZzcBlackList();
         Gson gson = new Gson();
         if (hashMapList != null && hashMapList.size() > 0) {
@@ -503,14 +503,14 @@ public class TaskJobMiddleService {
                     //log.error("zzc push error!", e);
                 }
             }
-        }
+        }*/
     }
 
     /**
      * 远程推送
      */
     private void zzcUrlPush(String jsonStrData) throws IOException {
-        HttpClient c = new HttpClient();
+        /*HttpClient c = new HttpClient();
         c.getParams().setContentCharset("utf-8");
         c.getParams().setAuthenticationPreemptive(true);
         Credentials defaultcreds = new UsernamePasswordCredentials(PayContents.ZZC_USERNAME, PayContents.ZZC_PASSWORD);
@@ -528,7 +528,7 @@ public class TaskJobMiddleService {
             if (jsonObject.containsKey("uuid")) {
                 log.info("push zzc blacklist success " + jsonObject.get("uuid"));
             }
-        }
+        }*/
 
 
     }
