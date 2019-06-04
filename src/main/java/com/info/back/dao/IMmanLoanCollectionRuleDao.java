@@ -19,5 +19,5 @@ public interface IMmanLoanCollectionRuleDao {
 
 	public Integer findCompanyGoupOnline(HashMap<String, String> params);
 
-	public MmanLoanCollectionRule selectBycollectionGroup(String collectionGroup);
+	public MmanLoanCollectionRule selectBycollectionGroup(String collectionGroup, String companyId);
 }

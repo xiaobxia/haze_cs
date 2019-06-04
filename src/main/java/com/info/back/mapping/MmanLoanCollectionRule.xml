@@ -22,11 +22,10 @@
 		mlcr.assign_type AS assignType
 	</sql>
 
-	<select id="selectBycollectionGroup" resultType="com.info.web.pojo.cspojo.MmanLoanCollectionRule"
-			parameterType="java.lang.String">
+	<select id="selectBycollectionGroup" resultType="com.info.web.pojo.cspojo.MmanLoanCollectionRule">
 		SELECT
 		<include refid="sqlMmanLoanCollectionRuleColumns"/>
-		from mman_loan_collection_rule mlcr where mlcr.collection_group = #{collectionGroup}
+		from mman_loan_collection_rule mlcr where mlcr.collection_group = #{collectionGroup} and mlcr.company_id = #{companyId}
 	</select>
 	
 	<select id="findAllCount"  parameterType="HashMap" resultType="Integer">

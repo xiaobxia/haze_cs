@@ -616,7 +616,7 @@ public class MmanLoanCollectionRecordServiceImpl implements IMmanLoanCollectionR
             MmanLoanCollectionPerson person = mmanLoanCollectionPersonList.get(0);
             log.info("assignCollectionOrderToRelatedGroup person:{}", JSON.toJSONString(person));
             /*根据grouplevel查询是否手动分配派单比例*/
-            MmanLoanCollectionRule rule = mmanLoanCollectionRuleDao.selectBycollectionGroup(person.getGroupLevel());
+            MmanLoanCollectionRule rule = mmanLoanCollectionRuleDao.selectBycollectionGroup(person.getGroupLevel(), person.getCompanyId());
             if (rule != null && OdvRate.HAND.equals(rule.getAssignType())) {
                 for (MmanLoanCollectionOrder order : mmanLoanCollectionOrderList) {
                     int odvId = getSectionOdvId(person);
