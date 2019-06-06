@@ -123,7 +123,7 @@
 				<td></td>
 			</tr>
 			<c:forEach items="${userContactsmap}" var="items" varStatus="status">
-				<tr>
+				<tr target="id" rel="${items.id }">
 					<td>${status.index+3}</td>
 					<td></td>
 					<td>${items.contact_name }</td>

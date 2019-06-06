@@ -209,7 +209,7 @@
         color: #000;
     }
     .popup-dialog .popup-dialog-close {
-        color: #999;
+        color: #000;
     }
     .popup-dialog table {
         width: 100%;
